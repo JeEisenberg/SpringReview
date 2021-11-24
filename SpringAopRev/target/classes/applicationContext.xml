@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="book" class="com.gavin.pojo.Book">
+        <!--    构造注入-->
+        <constructor-arg index="0" value="1001"/>
+        <constructor-arg index="1" value="java"/>
+        <constructor-arg index="2" value="清华出版社"/>
+        <constructor-arg index="3" value="77.8"/>
+        <constructor-arg index="4" value="计算机"/>
+        <constructor-arg index="5" value="100"/>
+    </bean>
+    <bean id="user" class="com.gavin.pojo.User">
+        <property name="name" value="小明"/>
+        <property name="age" value="18"/>
+        <property name="birthday" value="1998-09-09"/>
+    </bean>
+
+    <bean id="userDao" class="com.gavin.dao.UserDaoImp" autowire="byName"/>
+
+    <bean id="userService" class="com.gavin.service.UserServiceImp" autowire="byName"/>
+    <bean id="userController" class="com.gavin.controller.UserControllerImp" autowire="byName"/>
+    <bean id="myAspect" class="com.gavin.MyAspect.myAspect"/>
+
+<!--
+    <aop:config>
+        <aop:aspect id="aspect" ref="myAspect">
+            <aop:pointcut id="myPointCut" expression="execution(* com.gavin.dao.UserDaoImp.*(..))"/>
+            <aop:before method="check" pointcut-ref="myPointCut"/>
+            <aop:after-returning method="login" pointcut-ref="myPointCut" returning="joinPoint"/>
+            <aop:around method="operateSocket" pointcut-ref="myPointCut" />
+            <aop:after-throwing method="ifException" pointcut-ref="myPointCut" throwing="e"/>
+            <aop:after method="exitSocket" pointcut-ref="myPointCut"/>
+        </aop:aspect>
+    </aop:config>
+
+-->
+    <context:component-scan base-package="com.gavin"/>
+    <aop:aspectj-autoproxy/>
+
+</beans>
